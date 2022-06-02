@@ -1,5 +1,5 @@
 import express from 'express'
-import mongoose from "mongoose"
+import { MongoClient } from "mongodb";
 import Cors from "cors"
 
 import dbCards from './dbCards.js';
@@ -9,23 +9,37 @@ import dbCards from './dbCards.js';
 const app = express();
 const port = process.env.PORT || 8001
 
-const connection_url = "mongodb+srv://admin:admin1@cluster0.v31sc.mongodb.net/danclydb?retryWrites=true&w=majority"
+const connection_url = "mongodb+srv://admin:admin1@cluster0.v31sc.mongodb.net/Cluster0?retryWrites=true&w=majority"
 
 // Middlewares
 app.use(express.json());
 app.use(Cors());
 
 // DB Config
-mongoose.connect(connection_url, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-})
 
 // API Endpoints
 app.get('/', (req, res) => res.status(200).send('Hello'));
 
-app.get('/login', (req, res) => res.status(200))
+app.get('/login', (req, res) => res.status(200));
+
+app.post('/signup', (req, res) => {
+    const client = new MongoClient(connection_url)
+})
+
+app.get('/users', async (req, res) => {
+    const client = new MongoClient(connection_url)
+
+    try {
+        await client.connect()
+        const dbname = client.db('danclydb')
+        const users = dbname.collection('users')
+
+        const returnedUsers = await users.find().toArray()
+        res.send(returnedUsers)
+    } finally {
+        await client.close()
+    }
+})
 
 app.post('/dancly/cards', (req, res) => {
     const dbCard = req.body;
