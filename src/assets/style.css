@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  padding: 0;
+  /* text-align: center; */
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+a:after {
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* ---- buttons ---- */
+.button {
+  padding: 8px 24px 8px 24px;
+  border-radius: 27px;
+  cursor: pointer;
+  text-align: center;
+  border-style: solid;
+  text-decoration: none;
+  box-sizing:border-box;
+  border-width: 2px;
+  font-size: 14px;
+}
+.filled-button {
+  background-color: #006a63;
+  color: white;
+  border-style: none;
+}
+.filled-button:visited {
+  color: white;
+}
+.filled-tonal-button {
+  background-color: #cce8e4;
+  border-style: none;
+  color: #00201d;
+}
+.text-button {
+  border-style: none;
+}
+
+/* --- header --- */
+#header {
+  width: 100%;
+  display: flex;
+  justify-content:space-between;
+}
+.logo-container {
+  width: 50px;
+  margin: 15px
+}
+.logo {
+  width: 100%;
+}
+.nav-buttons-container {
+  justify-content: space-evenly;
+  display: flex;
+  margin: 15px;
+  vertical-align:auto;
+}
+#header li a {
+  top: 50%;
+  position: relative;
+}
+/* --- modal --- */
+.modal {
+  position: absolute;
+  z-index: 10;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  background-color: white;
+  border-style: solid;
+  border-radius: 28px;
+  border-width: 2px;
+  border-color: #6f7977;
+}
+.modal-title {
+  text-align: center;
+}
+.close-button {
+  cursor: pointer;
+  float: right;
+  margin-right: 20px;
+  margin-top: 20px;
+  border-style: solid;
+  border-radius: 25px;
+  padding: 5px 10px;
+  vertical-align: middle;
+  text-align: center;
+  border-width: 1px;
+}
+.modal-content {
+  margin-top: 10px;
+  padding: 40px;
+}
+.tabs {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0;
+  width: 100%;
+}
+.auth-tab {
+  padding: 10px;
+}
+.tran {
+  transition:linear;
+  transition-duration: 0.15s;
+}
+/* --- forms --- */
+.forms {
+  display: flex;
+  flex-direction: column;
+}
+.form-text-input {
+  padding: 16px 12px;
+  border-radius: 4px;
+  border-color: #6f7977;
+}
+.form-labels {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.form-submit {
+  margin-top: 30px;
+  padding: 20px;
+}
