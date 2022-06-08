@@ -24,6 +24,9 @@ a:visited {
   text-decoration: none;
   color: inherit;
 }
+.text-center {
+  text-align: center;
+}
 
 
 /* ---- buttons ---- */
@@ -92,6 +95,7 @@ a:visited {
   border-width: 2px;
   border-color: #6f7977;
 }
+
 .modal-title {
   text-align: center;
 }
@@ -116,6 +120,7 @@ a:visited {
   flex-direction: row;
   padding-left: 0;
   width: 100%;
+  justify-content: space-evenly;
 }
 .auth-tab {
   padding: 10px;
@@ -133,6 +138,7 @@ a:visited {
   padding: 16px 12px;
   border-radius: 4px;
   border-color: #6f7977;
+  border-width: 1px;
 }
 .form-labels {
   margin-top: 20px;
@@ -141,4 +147,59 @@ a:visited {
 .form-submit {
   margin-top: 30px;
   padding: 20px;
+}
+.form-error {
+  color: red;
+}
+.alert-process{
+  background-color: #47617a;
+  padding: 15px;
+  color: #ffffff;
+  font: bold;
+}
+.alert-error {
+  background-color: #ba1a1a;
+  padding: 15px;
+  color: #ffffff;
+  font: bold;
+}
+
+/* --- onboard --- */
+
+.onboard-section {
+  width: 50%;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+.onboard-form .form-text-input {
+  margin: 5px;
+}
+.gender-box {
+  margin: 10px;
+}
+.row-section {
+  display: flex;
+  flex-direction: row;
+}
+.row-section .form-text-input {
+  width: 100%;
+}
+.gender-box label {
+  width: 100%;
+  border-style: solid;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  padding: 8px 24px;
+  border-radius: 27px;
+  /* cursor: pointer; */
+}
+.onboard-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.photo-container img {
+  width: 100%;
+  max-width: 400px;
 }

@@ -1,21 +1,55 @@
 <template>
   <div class="login-form">
-    <div class="alerts"></div>
-    <form class="forms">
+    <div class="alerts"
+    v-if="login_show_alert"
+    :class="login_alert_variant">
+      {{ login_alert_msg }}
+    </div>
+    <vee-form class="forms"
+    :validation-schema="loginSchema" @submit="login">
+
       <label class="form-labels" for="email">Email</label>
-      <input type="email" name="email"
+      <vee-field type="email" name="email"
         class="form-text-input" placeholder="email" />
+      <ErrorMessage class="form-error" name="email" />
+
       <label class="form-labels" for="email">Hasło</label>
-      <input type="password" name="password"
+      <vee-field type="password" name="password"
         class="form-text-input" placeholder="Hasło" />
-      <input type="submit" value="Zarejestruj się!"
-      class="button filled-button form-submit"/>
-    </form>
+      <ErrorMessage class="form-error" name="password" />
+
+      <button type="submit"
+      class="button filled-button form-submit" :disabled="login_in_submission">
+        Zaloguj się
+      </button>
+    </vee-form>
   </div>
 </template>
 
 <script>
 export default {
   name: 'LoginForm',
+  data() {
+    return {
+      loginSchema: {
+        email: 'required|email',
+        password: 'required|min:6|max:32',
+      },
+      login_in_submission: false,
+      login_show_alert: false,
+      login_alert_variant: 'alert-process',
+      login_alert_msg: 'Chwileczkę, logujemy cię...',
+    };
+  },
+  methods: {
+    login(values) {
+      console.log(values);
+      this.login_in_submission = true;
+      this.login_show_alert = true;
+      this.login_alert_variant = 'alert-proces';
+      this.login_alert_msg = 'Chwileczkę, logujemy cię...';
+      // logowanie
+    },
+  },
 };
 </script>
