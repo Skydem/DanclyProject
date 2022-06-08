@@ -31,6 +31,7 @@
         </li>
       </ul>
       <login-form v-if="tab === 'login'"></login-form>
+      <register-form v-else></register-form>
     </div>
   </div>
 </template>
@@ -38,11 +39,13 @@
 <script>
 import { mapMutations, mapState } from 'vuex';
 import LoginForm from '@/components/LoginForm.vue';
+import RegisterForm from '@/components/RegisterForm.vue';
 
 export default {
   name: 'AuthModal',
   components: {
     LoginForm,
+    RegisterForm,
   },
   computed: {
     ...mapState(['authModalShow']),
@@ -58,6 +61,8 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped>
+template {
+  background-color: black;
+}
 </style>
