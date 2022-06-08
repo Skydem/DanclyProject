@@ -203,3 +203,21 @@ a:visited {
   width: 100%;
   max-width: 400px;
 }
+
+/* --- onboard --- */
+
+.dashboard {
+  display:  flex;
+  flex-direction: row;
+}
+.dashboard-item {
+  width: 100%;
+}
+.dashboard-item .row-section {
+  justify-content: space-between;
+}
+.dashboard-item .row-section .button {
+  width: 100%;
+  padding: 15px;
+  margin: 5px;
+}
