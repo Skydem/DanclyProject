@@ -6,7 +6,7 @@
           <img src="https://i.imgur.com/dmwjVjG.jpeg" alt="profile image" class="profile-img">
         </div>
       </div>
-      <h2>Cześć Username!</h2>
+      <h2>Cześć {{ user.firstName }}!</h2>
     </div>
     <ul class="tabs">
       <li class="auth-tab">
@@ -29,7 +29,7 @@
       </li>
     </ul>
     <matches-display v-if="tab === 'matches'"></matches-display>
-    <chat-display v-else></chat-display>
+    <chat-display v-else :user="user"></chat-display>
   </div>
 </template>
 
@@ -48,5 +48,6 @@ export default {
     MatchesDisplay,
     ChatDisplay,
   },
+  props: ['user'],
 };
 </script>

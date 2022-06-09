@@ -50,7 +50,7 @@
         </div>
 
         <label for="show-gender">
-          <vee-field type="checkbox" name="show-gender" value="1" id="show-gender" />
+          <vee-field type="checkbox" name="show_gender" value="1" id="show-gender" />
           Pokaż płeć w profilu
         </label>
 
