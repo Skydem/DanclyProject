@@ -1,8 +1,8 @@
 <template>
   <div class="dashboard">
-    <chat-container class="dashboard-item"></chat-container>
+    <chat-container class="dashboard-item chat-container"></chat-container>
     <div class="cards-container dashboard-item">
-      <card-component v-for="character in characters" :key="character">
+      <card-component v-for="character in characters" :key="character.name">
         <img :src="character.url" alt="image" class="card-img">
         <h3 class="card-padding">{{ character.name }}</h3>
         <div class="row-section card-padding">
@@ -18,6 +18,7 @@
 <script>
 import cardComponent from '@/components/CardComponent.vue';
 import chatContainer from '@/components/chatContainer.vue';
+import axios from 'axios';
 
 export default {
   name: 'DashboardView',
@@ -37,14 +38,42 @@ export default {
           url: 'https://i.imgur.com/OckVkRo.jpeg',
         },
       ],
+      UserId: this.setUser(),
+      user: {},
     };
   },
   methods: {
+    setUser() {
+      /* eslint-disable prefer-destructuring */
+      const gotCookies = document.cookie.split('; ');
+      console.log(gotCookies);
+      let result = 0;
+      gotCookies.forEach((cookie) => {
+        const tmpCookie = cookie.split('=');
+        console.log(tmpCookie);
+        if (tmpCookie[0] === 'UserId') {
+          console.log(tmpCookie[1]);
+          result = tmpCookie[1];
+        }
+      });
+      return result;
+      /* eslint-enable prefer-destructuring */
+    },
     reject() {
       console.log('rejected!');
     },
     accept() {
       console.log('accepted!');
+    },
+    async getUser() {
+      try {
+        const response = await axios.get('http://localhost:800/user', {
+          params: this.UserId,
+        });
+        this.user = response.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

@@ -48,13 +48,22 @@ export default {
     };
   },
   methods: {
-    register(values) {
+    async register(values) {
       console.log(values);
       this.register_in_submission = true;
       this.register_show_alert = true;
       this.register_alert_variant = 'alert-process';
       this.register_alert_msg = 'Chwileczkę, rejestrujemy cię...';
       // rejestrowanie - przekazanie do nastepnego komponentu
+      try {
+        await this.$store.dispatch('register', values);
+      } catch (error) {
+        console.log('error register form!');
+        console.log(error);
+        this.register_in_submission = false;
+        this.register_alert_variant = 'alert-error';
+        this.register_alert_msg = 'Error';
+      }
     },
   },
 };

@@ -17,7 +17,7 @@
           </a>
         </li>
         <li v-else>
-          <a class="button">Sign Out</a>
+          <a class="button" href="#" @click.prevent="signout">Sign Out</a>
         </li>
       </div>
     <!-- </ul> -->
@@ -34,6 +34,10 @@ export default {
   },
   methods: {
     ...mapMutations(['toggleAuthModal']),
+    ...mapMutations(['toggleAuth']),
+    signout() {
+      this.$store.dispatch('signout');
+    },
   },
 
 };

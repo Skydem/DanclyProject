@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-center">Stwórz konto</h1>
   <div class="onboarding">
-    <vee-form :validation-schema="registerSchema" @submit="register"
+    <vee-form @submit="update"
     class="onboard-form">
       <div class="onboard-section forms">
 
@@ -102,8 +102,24 @@
 export default {
   name: 'OnboardingView',
   methods: {
-    register(values) {
+    async update(values) {
+      /* eslint-disable no-param-reassign */
+      const gotCookies = document.cookie.split('; ');
+      gotCookies.forEach((cookie) => {
+        const cookietmp = cookie.split('=');
+        const [key, value] = cookietmp;
+        if (key === 'Email') values.Email = value;
+        if (key === 'User_Id') values.User_Id = value;
+      });
+      values.matches = [];
+      /* eslint-enable no-param-reassign */
       console.log(values);
+      try {
+        await this.$store.dispatch('userPut', values);
+      } catch (error) {
+        console.log('error populate form!');
+        console.log(error);
+      }
     },
   },
   data() {
