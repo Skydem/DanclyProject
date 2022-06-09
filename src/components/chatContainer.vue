@@ -3,7 +3,7 @@
     <div class="chat-header">
       <div class="profile">
         <div class="profile-img-container">
-          <img src="https://i.imgur.com/dmwjVjG.jpeg" alt="profile image" class="profile-img">
+          <img :src="user.url" alt="profile image" class="profile-img">
         </div>
       </div>
       <h2>Cześć {{ user.firstName }}!</h2>

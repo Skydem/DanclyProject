@@ -1,10 +1,12 @@
 <template>
   <div class="dashboard">
     <chat-container class="dashboard-item chat-container" :user="user"></chat-container>
+    <button @click="getUsers()">get users</button>
     <div class="cards-container dashboard-item">
-      <card-component v-for="gUser in characters" :key="gUser.firstName">
+      <card-component v-for="gUser in genderedUsers" :key="gUser.firstName">
         <img :src="gUser.url" alt="image" class="card-img">
         <h3 class="card-padding">{{ gUser.firstName }}</h3>
+        <p class="card-padding">{{ gUser.about }}</p>
         <div class="row-section card-padding">
           <div class="button" @click="reject" @keyup.left="reject">Nope</div>
           <div class="button filled-button" @click="accept(gUser.user_id)"
@@ -69,19 +71,19 @@ export default {
         },
       ],
       user: {
-        firstName: 'jan',
-        dob_day: '21',
-        dob_month: '11',
-        dob_year: '2001',
-        gender_identity: 'man',
-        show_gender: '1',
-        gender_interest: 'woman',
-        about: 'test',
-        url: 'https://i.imgur.com/oPj4A8u.jpeg',
-        matches: [],
+        // firstName: 'jan',
+        // dob_day: '21',
+        // dob_month: '11',
+        // dob_year: '2001',
+        // gender_identity: 'man',
+        // show_gender: '1',
+        // gender_interest: 'woman',
+        // about: 'test',
+        // url: 'https://i.imgur.com/oPj4A8u.jpeg',
+        // matches: [],
       },
       UserId: this.setUserId(),
-      genderedUsers: {},
+      genderedUsers: this.getGenderedUsers(),
       filteredGenderedUsers: {},
     };
   },
@@ -104,16 +106,16 @@ export default {
     },
     reject(e) {
       console.log('rejected!', e.path[2]);
-      e.path[2].remove();
+      this.genderedUsers.pop();
     },
     async accept(id) {
       console.log('accepted!', id);
       this.user.matches.push(id);
-      this.characters.pop();
+      this.genderedUsers.pop();
       try {
-        await axios.put('http://localhost:8000/addmatch', {
-          userId: this.userId,
-          matcheduserId: id,
+        await axios.put('http://localhost:8000/add-match', {
+          userId: this.UserId,
+          matchedUserId: id,
         });
         this.getUser();
       } catch (error) {
@@ -122,24 +124,38 @@ export default {
     },
     async getUser() {
       try {
-        const response = await axios.get('http://localhost:800/user', {
-          params: this.UserId,
-        });
+        console.log('getUser: sending userid of: ', this.UserId);
+        const pack = { params: { userId: this.UserId } };
+        const response = await axios.get('http://localhost:8000/user', pack);
+        console.log('getUser responsedata: ', response);
         this.user = response.data;
+        this.getGenderedUsers();
       } catch (error) {
-        console.log(error);
+        console.log('error in getuser: ', error);
       }
     },
     async getGenderedUsers() {
       try {
-        const response = await axios.get('http://localhost:800/gendered-users', {
-          params: this.user.gender_interest,
-        });
+        const pack = { params: { gender: this.user.gender_interest } };
+        const response = await axios.get('http://localhost:8000/gendered-users', pack);
         this.genderedUsers = response.data;
       } catch (error) {
         console.log(error);
       }
     },
+    async getUsers() {
+      try {
+        const pack = { params: { userIds: JSON.stringify(this.user.matches) } };
+        const response = await axios.get('http://localhost:8000/users', pack);
+        this.user.matches = response.data;
+        console.log('huh');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  mounted() {
+    this.getUser();
   },
 };
 </script>

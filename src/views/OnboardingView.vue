@@ -109,7 +109,7 @@ export default {
         const cookietmp = cookie.split('=');
         const [key, value] = cookietmp;
         if (key === 'Email') values.Email = value;
-        if (key === 'User_Id') values.User_Id = value;
+        if (key === 'UserId') values.user_id = value;
       });
       values.matches = [];
       /* eslint-enable no-param-reassign */

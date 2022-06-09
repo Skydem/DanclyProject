@@ -32,7 +32,8 @@ export default createStore({
     },
     async login({ commit }, { email, password }) {
       const response = await axios.post('http://localhost:8000/login', { email, password });
-      const success = response.status === 201;
+      console.log(response);
+      const success = response.status === 200;
       if (success) router.push({ name: 'Dashboard' });
       // document.cookie = `Email=${response.data.email}`;
       document.cookie = `UserId=${response.data.userId}`;
@@ -43,11 +44,16 @@ export default createStore({
     async userPut({ commit }, values) {
       console.log(values);
       const response = await axios.put('http://localhost:8000/user', values);
-      const success = response.statusCode === 200;
+      // const success = response.statusCode === 200;
+      console.log(response);
+      const success = 1;
       if (success) router.push({ name: 'Dashboard' });
       commit('togglePopulated');
     },
     signout({ commit }) {
+      document.cookie = 'AuthToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'UserId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      router.push({ name: 'home' });
       commit('toggleAuth');
     },
   },
