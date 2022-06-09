@@ -42,13 +42,21 @@ export default {
     };
   },
   methods: {
-    login(values) {
+    async login(values) {
       console.log(values);
       this.login_in_submission = true;
       this.login_show_alert = true;
       this.login_alert_variant = 'alert-proces';
       this.login_alert_msg = 'Chwileczkę, logujemy cię...';
-      // logowanie
+      try {
+        await this.$store.dispatch('login', values);
+      } catch (error) {
+        console.log('error login form!');
+        console.log(error);
+        this.login_in_submission = false;
+        this.login_alert_variant = 'alert-error';
+        this.login_alert_msg = 'Error';
+      }
     },
   },
 };
