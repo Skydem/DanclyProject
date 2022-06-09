@@ -1,13 +1,14 @@
 <template>
   <div class="dashboard">
-    <chat-container class="dashboard-item chat-container"></chat-container>
+    <chat-container class="dashboard-item chat-container" :user="user"></chat-container>
     <div class="cards-container dashboard-item">
-      <card-component v-for="character in characters" :key="character.name">
-        <img :src="character.url" alt="image" class="card-img">
-        <h3 class="card-padding">{{ character.name }}</h3>
+      <card-component v-for="gUser in characters" :key="gUser.firstName">
+        <img :src="gUser.url" alt="image" class="card-img">
+        <h3 class="card-padding">{{ gUser.firstName }}</h3>
         <div class="row-section card-padding">
           <div class="button" @click="reject" @keyup.left="reject">Nope</div>
-          <div class="button filled-button" @click="accept" @keyup.right="accept">Yas</div>
+          <div class="button filled-button" @click="accept(gUser.user_id)"
+          @keyup.right="accept">Yas</div>
         </div>
       </card-component>
     </div>
@@ -30,20 +31,62 @@ export default {
     return {
       characters: [
         {
-          name: 'Ania',
+          firstName: 'Karolina',
+          dob_day: '11',
+          dob_month: '6',
+          dob_year: '1999',
+          gender_identity: 'woman',
+          show_gender: '1',
+          gender_interest: 'man',
+          about: 'wszystko',
           url: 'https://i.imgur.com/oPj4A8u.jpeg',
+          matches: [],
+          user_id: 1,
         },
         {
-          name: 'Kasia',
-          url: 'https://i.imgur.com/OckVkRo.jpeg',
+          firstName: 'Basia',
+          dob_day: '6',
+          dob_month: '3',
+          dob_year: '2000',
+          gender_identity: 'woman',
+          show_gender: '1',
+          about: 'wszystko i nic',
+          url: 'https://i.imgur.com/H07Fxdh.jpeg',
+          matches: [],
+          user_id: 2,
+        },
+        {
+          firstName: 'Marek',
+          dob_day: '5',
+          dob_month: '8',
+          dob_year: '2002',
+          gender_identity: 'man',
+          show_gender: '1',
+          about: 'siłka',
+          url: 'https://i.imgur.com/dmwjVjG.jpeg',
+          matches: [],
+          user_id: 3,
         },
       ],
-      UserId: this.setUser(),
-      user: {},
+      user: {
+        firstName: 'jan',
+        dob_day: '21',
+        dob_month: '11',
+        dob_year: '2001',
+        gender_identity: 'man',
+        show_gender: '1',
+        gender_interest: 'woman',
+        about: 'test',
+        url: 'https://i.imgur.com/oPj4A8u.jpeg',
+        matches: [],
+      },
+      UserId: this.setUserId(),
+      genderedUsers: {},
+      filteredGenderedUsers: {},
     };
   },
   methods: {
-    setUser() {
+    setUserId() {
       /* eslint-disable prefer-destructuring */
       const gotCookies = document.cookie.split('; ');
       console.log(gotCookies);
@@ -59,11 +102,23 @@ export default {
       return result;
       /* eslint-enable prefer-destructuring */
     },
-    reject() {
-      console.log('rejected!');
+    reject(e) {
+      console.log('rejected!', e.path[2]);
+      e.path[2].remove();
     },
-    accept() {
-      console.log('accepted!');
+    async accept(id) {
+      console.log('accepted!', id);
+      this.user.matches.push(id);
+      this.characters.pop();
+      try {
+        await axios.put('http://localhost:8000/addmatch', {
+          userId: this.userId,
+          matcheduserId: id,
+        });
+        this.getUser();
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getUser() {
       try {
@@ -71,6 +126,16 @@ export default {
           params: this.UserId,
         });
         this.user = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getGenderedUsers() {
+      try {
+        const response = await axios.get('http://localhost:800/gendered-users', {
+          params: this.user.gender_interest,
+        });
+        this.genderedUsers = response.data;
       } catch (error) {
         console.log(error);
       }
