@@ -293,4 +293,5 @@ a:visited {
 }
 .match-section {
   text-align: center;
+  cursor: pointer;
 }

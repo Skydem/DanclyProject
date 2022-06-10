@@ -28,7 +28,7 @@
             Chat</a>
       </li>
     </ul>
-    <matches-display v-if="chatTabs === 'matches'" :user="user"></matches-display>
+    <matches-display v-if="chatTabs === 'matches'" ></matches-display>
     <chat-display v-else :user="user"></chat-display>
   </div>
 </template>
