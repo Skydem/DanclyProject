@@ -12,13 +12,16 @@ exports.config = {
   output: './output',
   helpers: {
     Playwright: {
-      url: 'http://localhost',
+      url: 'http://localhost:8080',
       show: true,
       browser: 'chromium'
     }
   },
   include: {
-    I: './steps_file.js'
+    I: './steps_file.js',
+    LoginPage: './pages/LoginPage.js',
+    MainPage: './pages/MainPage.js',
+
   },
   bootstrap: null,
   mocha: {},
