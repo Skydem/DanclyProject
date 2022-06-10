@@ -2,12 +2,24 @@
   <div class="chatDisplay">
     <div class="chats">
       <button @click="getUserMessages">display id</button>
+      <div class="conversation-container">
+        <div class="message" v-for="message in messagesDesc" :key="message.name+message.timestamp">
+          <div class="message-image-container">
+            <img :src="message.img" :alt="message.name + 'profile picture'"
+            class="message-img"/>
+          </div>
+          <div class="message-content">
+            <span>{{ message.message }}</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="chat-input">
       <label for="message" style="display: none">Wpisz wiadomość</label>
       <textarea class="chat-text-input" id="message"
-      placeholder="Wpisz wiadomość..." auto="false" rows='4'></textarea>
-      <div class="button filled-button" type="submit">Wyślij wiadomość</div>
+      placeholder="Wpisz wiadomość..." auto="false" v-model="messageContent"/>
+      <button class="button filled-button" type="submit"
+      @click="addMessage">Wyślij wiadomość</button>
     </div>
   </div>
 </template>
@@ -24,6 +36,7 @@ export default {
       userMessagesRecieved: [],
       messages: [],
       messagesDesc: [],
+      messageContent: '',
     };
   },
   computed: {
@@ -75,6 +88,22 @@ export default {
         this.messages.push(formattedMessage);
       });
       this.messagesDesc = this.messages.sort((a, b) => a.timestamp - b.timestamp);
+    },
+    async addMessage() {
+      const message = {
+        timestamp: new Date().toISOString(),
+        from_userId: this.user.user_id,
+        to_userId: this.clickedUser.user_id,
+        message: this.messageContent,
+      };
+      this.messageContent = '';
+
+      try {
+        await axios.post('http://localhost:8001/message', { message });
+        this.getUserMessages();
+      } catch (error) {
+        console.log('error sending message!', error);
+      }
     },
   },
 };
