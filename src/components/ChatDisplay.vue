@@ -1,7 +1,7 @@
 <template>
   <div class="chatDisplay">
+    <h3>Piszesz z {{ clickedUser.firstName }}</h3>
     <div class="chats">
-      <button @click="getUserMessages">display id</button>
       <div class="conversation-container">
         <div class="message" v-for="message in messagesDesc" :key="message.name+message.timestamp">
           <div class="message-image-container">
@@ -20,6 +20,7 @@
       placeholder="Wpisz wiadomość..." auto="false" v-model="messageContent"/>
       <button class="button filled-button" type="submit"
       @click="addMessage">Wyślij wiadomość</button>
+      <button @click="getUserMessages" class="button filled-tonal-button">Odśwież</button>
     </div>
   </div>
 </template>
@@ -87,7 +88,8 @@ export default {
         };
         this.messages.push(formattedMessage);
       });
-      this.messagesDesc = this.messages.sort((a, b) => a.timestamp - b.timestamp);
+      this.messagesDesc = this.messages.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+      this.messages = [];
     },
     async addMessage() {
       const message = {
@@ -105,6 +107,10 @@ export default {
         console.log('error sending message!', error);
       }
     },
+  },
+  mounted() {
+    // setInterval(() => this.getUserMessages(), 10000);
+    this.getUserMessages();
   },
 };
 </script>

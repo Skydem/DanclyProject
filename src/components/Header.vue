@@ -38,8 +38,25 @@ export default {
     signout() {
       this.$store.dispatch('signout');
     },
+    checkLogin() {
+      /* eslint-disable prefer-destructuring */
+      if (document.cookie && !this.userLoggedIn) {
+        const gotCookies = document.cookie.split('; ');
+        console.log(gotCookies);
+        gotCookies.forEach((cookie) => {
+          const tmpCookie = cookie.split('=');
+          console.log(tmpCookie);
+          if (tmpCookie[0] === 'UserId') {
+            this.toggleAuth();
+          }
+        });
+      }
+      /* eslint-enable prefer-destructuring */
+    },
   },
-
+  mounted() {
+    this.checkLogin();
+  },
 };
 </script>
 

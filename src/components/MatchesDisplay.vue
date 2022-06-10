@@ -16,14 +16,15 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'MatchesDisplay',
-  data() {
-    return {
-      matchedProfiles: {},
-    };
-  },
+  // data() {
+  //   return {
+  //     filteredMatchedProfiles: {},
+  //   };
+  // },
   computed: {
     ...mapState(['matchesForUser']),
     ...mapState(['user']),
+    ...mapState(['filteredMatchedProfiles']),
   },
   methods: {
     clickedUser(match) {

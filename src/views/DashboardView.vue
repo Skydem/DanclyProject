@@ -1,9 +1,9 @@
 <template>
   <div class="dashboard">
     <chat-container class="dashboard-item chat-container"></chat-container>
-    <button @click="getUser()">get user</button>
-    <button @click="getUsers()">get users</button>
-    <button @click="getGenderedUsers()">get gendered users</button>
+    <!-- <button @click="getUser()">get user</button> -->
+    <!-- <button @click="getUsers()">get users</button>
+    <button @click="getGenderedUsers()">get gendered users</button> -->
     <div class="cards-container dashboard-item">
       <card-component v-for="gUser in genderedUsers" :key="gUser.firstName">
         <img :src="gUser.url" alt="image" class="card-img">
@@ -49,7 +49,6 @@ export default {
       genderedUsers: this.getGenderedUsers(),
       filteredGenderedUsers: {},
       matchesForUser: this.getUsers(),
-      testMatch: {},
     };
   },
   methods: {
@@ -100,6 +99,7 @@ export default {
       } catch (error) {
         console.log('error in getuser: ', error);
       }
+      this.$store.dispatch('setFilterMatchedProfiles');
     },
     async getGenderedUsers() {
       try {
@@ -135,7 +135,8 @@ export default {
     async getStarterInfo() {
       await this.getUser();
       await this.getUsers();
-      // await this.getGenderedUsers();
+      await this.getGenderedUsers();
+      // this.$store.dispatch('setFilterMatchedProfiles');
     },
   },
   mounted() {

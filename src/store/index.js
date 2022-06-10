@@ -11,6 +11,7 @@ export default createStore({
     user: {},
     clickedUser: {},
     chatTabs: 'matches',
+    filteredMatchedProfiles: {},
   },
   mutations: {
     toggleAuthModal: (state) => {
@@ -34,8 +35,19 @@ export default createStore({
     updateChatTabs(state, val) {
       state.chatTabs = val;
     },
+    // filterMatchedProfiles(state, val) {
+    //   state.filteredMatchedProfiles = val;
+    // },
   },
   actions: {
+    // setFilterMatchedProfiles({ commit }) {
+    //   console.log('sortiiing');
+    /* eslint-disable max-len */
+    //   console.log('matches', this.matchesForUser);
+    //   const result = this.matchesForUser.filter((matchedProfile) => matchedProfile.matches.filter((profile) => profile.user_id === this.user.user_id).length > 0);
+    /* eslint-disable max-len */
+    //   commit('filterMatchedProfiles', result);
+    // },
     setClickedUser({ commit }, value) {
       commit('updateClickedUser', value);
     },
