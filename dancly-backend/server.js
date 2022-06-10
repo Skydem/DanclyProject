@@ -2,8 +2,11 @@ import express from 'express'
 import { MongoClient } from "mongodb";
 import Cors from "cors"
 import bcrypt from "bcrypt";
-import {v4 as uuidv4} from 'uuid';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
+// const {v4: uuidv4} = require('uuid')
+import { v4 as uuidv4 } from 'uuid';
+
+// const jwt = require('jsonwebtoken');
 
 // App Config
 const app = express();
@@ -21,6 +24,7 @@ const client = new MongoClient(connection_url);
 const database = client.db('danclydb');
 const users = database.collection('users');
 
+
 // API Endpoints
 app.get('/', (req, res) => res.status(200).send('Hello'));
 
@@ -29,7 +33,6 @@ app.get('/login', (req, res) => res.status(200));
 app.post('/login', async (req, res) => {
     const {email, password} = req.body;
     const user = await users.findOne({email});
-
     try {
         await client.connect();
         const correctPass = await bcrypt.compare(password, user.hashed_password);
@@ -50,7 +53,6 @@ app.post('/login', async (req, res) => {
 app.post('/signup', async (req, res) => {
     const {email, password} = req.body
     const user = await users.findOne({email});
-
     const generatedUserId = uuidv4();
     const hashedPass = await bcrypt.hash(password, 10);
 
@@ -81,12 +83,11 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/user', async (req,res) => {
-    const userId = req.params.userId;
-
+    const userIde = req.query.userId;
     try {
         await client.connect();
 
-        const query = { user_id: userId };
+        const query = { user_id: userIde };
         const user = await users.findOne(query);
 
         res.send(user);
@@ -96,8 +97,7 @@ app.get('/user', async (req,res) => {
 });
 
 app.get('/gendered-users', async (req, res) => {
-    const gender = req.query.gender;
-
+    const gender = req.query.gender; // w Dashboardzie trzeba będzie pobrać wartość gender
     try {
         await client.connect();
         const query = {gender_identity: {$eq: gender}};
@@ -114,7 +114,6 @@ app.put('/user', async (req, res) => {
 
     try {
         await client.connect();
-
         const query = {user_id: formData.user_id};
         const updateInfo = {
             $set: {
@@ -141,12 +140,11 @@ app.put('/user', async (req, res) => {
 
 app.put('/add-match', async (req, res) => {
     const { userId, matchedUserId } = req.body;
-
     try {
         await client.connect();
         const query = { user_id: userId };
         const updateDoc = {
-            $push: { matches: { user_id: matchedUserId}},
+            $push: { matches: matchedUserId },
         }
         res.send(await users.updateOne(query, updateDoc));
     } finally {
@@ -155,8 +153,7 @@ app.put('/add-match', async (req, res) => {
 });
 
 app.get('/users', async (req, res) => {
-    const userIds = JSON.parse(req.query.userIds);
-
+    const userIds = JSON.parse(req.query.userIds); // Dodać z dashboard.js
     try {
         await client.connect();
         const pipeline =
@@ -189,10 +186,10 @@ app.get('/messages', async (req, res) => {
         const foundMessages = await messages.find(query).toArray();
 
         res.send(foundMessages);
-    } finally {
         await client.close();
+    } finally {
+        
     }
-
 });
 
 app.post('/message', async (req, res) => {
@@ -204,9 +201,9 @@ app.post('/message', async (req, res) => {
         const sentMessage = await messages.insertOne(message);
 
         res.send(sentMessage);
-
-    } finally {
         await client.close();
+    } finally {
+        console.log('.')
     }
 });
 
