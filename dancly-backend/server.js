@@ -2,8 +2,8 @@ import express from 'express'
 import { MongoClient } from "mongodb";
 import Cors from "cors"
 import bcrypt from "bcrypt";
-
-const jwt = require('jsonwebtoken');
+import {v4 as uuidv4} from 'uuid';
+import jwt from 'jsonwebtoken'
 
 // App Config
 const app = express();
@@ -20,15 +20,15 @@ app.use(Cors());
 const client = new MongoClient(connection_url);
 const database = client.db('danclydb');
 const users = database.collection('users');
-const user = await users.findOne({email});
 
 // API Endpoints
 app.get('/', (req, res) => res.status(200).send('Hello'));
 
 app.get('/login', (req, res) => res.status(200));
 
-app.post('login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const {email, password} = req.body;
+    const user = await users.findOne({email});
 
     try {
         await client.connect();
@@ -49,8 +49,9 @@ app.post('login', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
     const {email, password} = req.body
+    const user = await users.findOne({email});
 
-    const generatedUserId = uuidv1();
+    const generatedUserId = uuidv4();
     const hashedPass = await bcrypt.hash(password, 10);
 
     try {
@@ -95,7 +96,7 @@ app.get('/user', async (req,res) => {
 });
 
 app.get('/gendered-users', async (req, res) => {
-    const gender = req.query.gender; // w Dashboardzie trzeba będzie pobrać wartość gender
+    const gender = req.query.gender;
 
     try {
         await client.connect();
@@ -109,7 +110,7 @@ app.get('/gendered-users', async (req, res) => {
 });
 
 app.put('/user', async (req, res) => {
-    const formData = req.body.formData;
+    const formData = req.body;
 
     try {
         await client.connect();
@@ -117,11 +118,10 @@ app.put('/user', async (req, res) => {
         const query = {user_id: formData.user_id};
         const updateInfo = {
             $set: {
-                first_name: formData.first_name,
-                last_name: formData.last_name,
-                birth_day: formData.birth_day,
-                birth_month: formData.birth_month,
-                birth_year: formData.birth_year,
+                firstName: formData.firstName,
+                dob_day: formData.dob_day,
+                dob_month: formData.dob_month,
+                dob_year: formData.dob_year,
                 gender_identity: formData.gender_identity,
                 gender_interest: formData.gender_interest,
                 url: formData.url,
@@ -155,7 +155,7 @@ app.put('/add-match', async (req, res) => {
 });
 
 app.get('/users', async (req, res) => {
-    const userIds = JSON.parse(req.query.userIds); // Dodać z dashboard.js
+    const userIds = JSON.parse(req.query.userIds);
 
     try {
         await client.connect();
