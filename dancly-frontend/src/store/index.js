@@ -61,7 +61,7 @@ export default createStore({
       commit('updateUser', value);
     },
     async register({ commit }, { email, password }) {
-      const response = await axios.post('http://localhost:8001/signup', { email, password });
+      const response = await axios.post('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/signup', { email, password });
       const success = response.status === 201;
       if (success) router.push({ name: 'Onboarding' });
       // document.cookie = `Email=${response.data.email}`;
@@ -71,7 +71,7 @@ export default createStore({
       commit('toggleAuth');
     },
     async login({ commit }, { email, password }) {
-      const response = await axios.post('http://localhost:8001/login', { email, password });
+      const response = await axios.post('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/login', { email, password });
       console.log(response);
       const success = response.status === 200;
       if (success) router.push({ name: 'Dashboard' });
@@ -83,7 +83,7 @@ export default createStore({
     },
     async userPut({ commit }, values) {
       console.log(values);
-      const response = await axios.put('http://localhost:8001/user', values);
+      const response = await axios.put('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/user', values);
       // const success = response.statusCode === 200;
       console.log(response);
       const success = 1;

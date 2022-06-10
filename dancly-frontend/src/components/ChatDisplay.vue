@@ -62,8 +62,8 @@ export default {
       };
       console.log('id for messages pack ', pack);
       try {
-        const response = await axios.get('http://localhost:8001/messages', pack);
-        const response2 = await axios.get('http://localhost:8001/messages', pack2);
+        const response = await axios.get('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/messages', pack);
+        const response2 = await axios.get('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/messages', pack2);
         this.userMessagesSent = response.data;
         this.userMessagesRecieved = response2.data;
       } catch (error) {
@@ -101,7 +101,7 @@ export default {
       this.messageContent = '';
 
       try {
-        await axios.post('http://localhost:8001/message', { message });
+        await axios.post('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/message', { message });
         this.getUserMessages();
       } catch (error) {
         console.log('error sending message!', error);

@@ -77,7 +77,7 @@ export default {
       this.user.matches.push(id);
       this.genderedUsers.pop();
       try {
-        await axios.put('http://localhost:8001/add-match', {
+        await axios.put('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/add-match', {
           userId: this.UserId,
           matchedUserId: id,
         });
@@ -91,7 +91,7 @@ export default {
       try {
         console.log('getUser: sending userid of: ', this.UserId);
         const pack = { params: { userId: this.UserId } };
-        const response = await axios.get('http://localhost:8001/user', pack);
+        const response = await axios.get('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/user', pack);
         console.log('getUser responsedata: ', response);
         this.user = response.data;
         this.$store.dispatch('setUser', response.data);
@@ -104,7 +104,7 @@ export default {
     async getGenderedUsers() {
       try {
         const pack = { params: { gender: this.user.gender_interest } };
-        const response = await axios.get('http://localhost:8001/gendered-users', pack);
+        const response = await axios.get('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/gendered-users', pack);
         this.genderedUsers = response.data;
         // this.testMatch = this.user.matches.filter((match) => {
         //   const res = this.genderedUsers.forEach((guser) => {
@@ -123,7 +123,7 @@ export default {
         console.log('user matches: ', this.user.matches);
         const pack = { params: { userIds: JSON.stringify(this.user.matches) } };
         console.log('pack ', pack);
-        const response = await axios.get('http://localhost:8001/users', pack);
+        const response = await axios.get('http://2a02:a314:8342:ff00:7094:76e4:2bfa:8753:8001/users', pack);
         this.matchesForUser = response.data;
         console.log('/dashboard response:', response.data);
         // this.getUser();
