@@ -7,6 +7,8 @@ export default createStore({
     userLoggedIn: false,
     authModalShow: false,
     populated: false,
+    matchesForUser: {},
+    user: {},
   },
   mutations: {
     toggleAuthModal: (state) => {
@@ -18,8 +20,20 @@ export default createStore({
     togglePopulated(state) {
       state.populated = !state.populated;
     },
+    updateMatchesForUser(state, val) {
+      state.matchesForUser = val;
+    },
+    updateUser(state, val) {
+      state.user = val;
+    },
   },
   actions: {
+    setMatchesForUser({ commit }, value) {
+      commit('updateMatchesForUser', value);
+    },
+    setUser({ commit }, value) {
+      commit('updateUser', value);
+    },
     async register({ commit }, { email, password }) {
       const response = await axios.post('http://localhost:8000/signup', { email, password });
       const success = response.status === 201;

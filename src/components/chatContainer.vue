@@ -28,7 +28,7 @@
             Chat</a>
       </li>
     </ul>
-    <matches-display v-if="tab === 'matches'"></matches-display>
+    <matches-display v-if="tab === 'matches'" :user="user"></matches-display>
     <chat-display v-else :user="user"></chat-display>
   </div>
 </template>
@@ -48,6 +48,6 @@ export default {
     MatchesDisplay,
     ChatDisplay,
   },
-  props: ['user'],
+  props: ['user', 'matchesForUser'],
 };
 </script>

@@ -1,7 +1,10 @@
 <template>
   <div class="dashboard">
-    <chat-container class="dashboard-item chat-container" :user="user"></chat-container>
+    <chat-container class="dashboard-item chat-container" :user="user"
+    :testMatch="testMatch"></chat-container>
+    <button @click="getUser()">get user</button>
     <button @click="getUsers()">get users</button>
+    <button @click="getGenderedUsers()">get gendered users</button>
     <div class="cards-container dashboard-item">
       <card-component v-for="gUser in genderedUsers" :key="gUser.firstName">
         <img :src="gUser.url" alt="image" class="card-img">
@@ -31,45 +34,6 @@ export default {
   },
   data() {
     return {
-      characters: [
-        {
-          firstName: 'Karolina',
-          dob_day: '11',
-          dob_month: '6',
-          dob_year: '1999',
-          gender_identity: 'woman',
-          show_gender: '1',
-          gender_interest: 'man',
-          about: 'wszystko',
-          url: 'https://i.imgur.com/oPj4A8u.jpeg',
-          matches: [],
-          user_id: 1,
-        },
-        {
-          firstName: 'Basia',
-          dob_day: '6',
-          dob_month: '3',
-          dob_year: '2000',
-          gender_identity: 'woman',
-          show_gender: '1',
-          about: 'wszystko i nic',
-          url: 'https://i.imgur.com/H07Fxdh.jpeg',
-          matches: [],
-          user_id: 2,
-        },
-        {
-          firstName: 'Marek',
-          dob_day: '5',
-          dob_month: '8',
-          dob_year: '2002',
-          gender_identity: 'man',
-          show_gender: '1',
-          about: 'siłka',
-          url: 'https://i.imgur.com/dmwjVjG.jpeg',
-          matches: [],
-          user_id: 3,
-        },
-      ],
       user: {
         // firstName: 'jan',
         // dob_day: '21',
@@ -85,6 +49,8 @@ export default {
       UserId: this.setUserId(),
       genderedUsers: this.getGenderedUsers(),
       filteredGenderedUsers: {},
+      matchesForUser: this.getUsers(),
+      testMatch: {},
     };
   },
   methods: {
@@ -113,11 +79,12 @@ export default {
       this.user.matches.push(id);
       this.genderedUsers.pop();
       try {
-        await axios.put('http://localhost:8000/add-match', {
+        await axios.put('http://localhost:8001/add-match', {
           userId: this.UserId,
           matchedUserId: id,
         });
-        this.getUser();
+        // this.getUser();
+        await this.getUsers();
       } catch (error) {
         console.log(error);
       }
@@ -126,10 +93,11 @@ export default {
       try {
         console.log('getUser: sending userid of: ', this.UserId);
         const pack = { params: { userId: this.UserId } };
-        const response = await axios.get('http://localhost:8000/user', pack);
+        const response = await axios.get('http://localhost:8001/user', pack);
         console.log('getUser responsedata: ', response);
         this.user = response.data;
-        this.getGenderedUsers();
+        this.$store.dispatch('setUser', response.data);
+        // this.getGenderedUsers();
       } catch (error) {
         console.log('error in getuser: ', error);
       }
@@ -137,25 +105,42 @@ export default {
     async getGenderedUsers() {
       try {
         const pack = { params: { gender: this.user.gender_interest } };
-        const response = await axios.get('http://localhost:8000/gendered-users', pack);
+        const response = await axios.get('http://localhost:8001/gendered-users', pack);
         this.genderedUsers = response.data;
+        // this.testMatch = this.user.matches.filter((match) => {
+        //   const res = this.genderedUsers.forEach((guser) => {
+        //     if (match === guser.user_id) return true;
+        //     return false;
+        //   });
+        //   if (res) return false;
+        //   return true;
+        // });
       } catch (error) {
         console.log(error);
       }
     },
     async getUsers() {
       try {
+        console.log('user matches: ', this.user.matches);
         const pack = { params: { userIds: JSON.stringify(this.user.matches) } };
-        const response = await axios.get('http://localhost:8000/users', pack);
-        this.user.matches = response.data;
-        console.log('huh');
+        console.log('pack ', pack);
+        const response = await axios.get('http://localhost:8001/users', pack);
+        this.matchesForUser = response.data;
+        console.log('/dashboard response:', response.data);
+        // this.getUser();
+        this.$store.dispatch('setMatchesForUser', this.matchesForUser);
       } catch (error) {
         console.log(error);
       }
     },
+    async getStarterInfo() {
+      await this.getUser();
+      await this.getUsers();
+      // await this.getGenderedUsers();
+    },
   },
   mounted() {
-    this.getUser();
+    this.getStarterInfo();
   },
 };
 </script>
