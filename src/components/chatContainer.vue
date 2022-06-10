@@ -12,23 +12,23 @@
       <li class="auth-tab">
         <a href="#"
           class="auth-tab-text button tran"
-          @click.prevent="tab = 'matches'"
+          @click.prevent="this.$store.dispatch('setChatTabs', 'matches')"
           :class="{
-            'filled-tonal-button': tab === 'matches',
-            'elevated-button': tab === 'chat'}">
+            'filled-tonal-button': chatTabs === 'matches',
+            'elevated-button': chatTabs === 'chat'}">
             Matches</a>
       </li>
       <li class="auth-tab">
         <a href="#"
           class="auth-tab-text button tran"
-          @click.prevent="tab = 'chat'"
+          @click.prevent="this.$store.dispatch('setChatTabs', 'chat')"
           :class="{
-            'filled-tonal-button': tab === 'chat',
-            'elevated-button': tab === 'matches'}">
+            'filled-tonal-button': chatTabs === 'chat',
+            'elevated-button': chatTabs === 'matches'}">
             Chat</a>
       </li>
     </ul>
-    <matches-display v-if="tab === 'matches'" :user="user"></matches-display>
+    <matches-display v-if="chatTabs === 'matches'" :user="user"></matches-display>
     <chat-display v-else :user="user"></chat-display>
   </div>
 </template>
@@ -36,6 +36,7 @@
 <script>
 import MatchesDisplay from '@/components/MatchesDisplay.vue';
 import ChatDisplay from '@/components/ChatDisplay.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'ChatContainer',
@@ -48,6 +49,10 @@ export default {
     MatchesDisplay,
     ChatDisplay,
   },
-  props: ['user', 'matchesForUser'],
+  computed: {
+    ...mapState(['user']),
+    ...mapState(['matchesForUser']),
+    ...mapState(['chatTabs']),
+  },
 };
 </script>

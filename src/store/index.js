@@ -9,6 +9,8 @@ export default createStore({
     populated: false,
     matchesForUser: {},
     user: {},
+    clickedUser: {},
+    chatTabs: 'matches',
   },
   mutations: {
     toggleAuthModal: (state) => {
@@ -26,8 +28,20 @@ export default createStore({
     updateUser(state, val) {
       state.user = val;
     },
+    updateClickedUser(state, val) {
+      state.clickedUser = val;
+    },
+    updateChatTabs(state, val) {
+      state.chatTabs = val;
+    },
   },
   actions: {
+    setClickedUser({ commit }, value) {
+      commit('updateClickedUser', value);
+    },
+    setChatTabs({ commit }, value) {
+      commit('updateChatTabs', value);
+    },
     setMatchesForUser({ commit }, value) {
       commit('updateMatchesForUser', value);
     },

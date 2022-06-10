@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard">
-    <chat-container class="dashboard-item chat-container" :user="user"
-    :testMatch="testMatch"></chat-container>
+    <chat-container class="dashboard-item chat-container"></chat-container>
     <button @click="getUser()">get user</button>
     <button @click="getUsers()">get users</button>
     <button @click="getGenderedUsers()">get gendered users</button>

@@ -13,7 +13,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'ChatDisplay',
+  computed: {
+    ...mapState(['user']),
+    ...mapState(['matchesForUser']),
+  },
 };
 </script>
