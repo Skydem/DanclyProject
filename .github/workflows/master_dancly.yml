@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'dancly'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E75EA1A70A944D9BB10D50C1C45D24C7 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_01093AEE28E74B27A981645BB6D52D7B }}
           package: .
