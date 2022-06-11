@@ -280,7 +280,7 @@ a:visited {
   top: 10%;
   max-width: 400px;
   box-sizing: box;
-  margin-left: 20%;
+  margin-left: 10%;
 }
 .card-padding {
   padding: 0px 15px;
@@ -325,10 +325,14 @@ a:visited {
   padding: 20px;
   overflow-y: auto;
   height: 50vh;
+  box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.147) inset;
 }
 .chat-text-input {
   width: 100%;
   resize: none;
+  border-radius: 20px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 .chat-form {
   width: 100%;
@@ -355,10 +359,12 @@ a:visited {
   flex-direction: row;
   justify-content: start;
   margin-top: 15px;
+  line-break: anywhere;
 }
 .messageAlt {
   flex-direction: row-reverse;
   justify-content: end;
+  text-align: right;
 }
 .chat-userName {
   font-weight: bold;
