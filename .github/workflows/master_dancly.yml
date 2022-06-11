@@ -1,23 +1,20 @@
-name: Main
+name: Heroku Deployment
+
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [ master ]
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with: 
-          node-version: "14.x"
-      - name: Install dependencies
-        run: npm install
-      - name: Run backend
-        run: npm start:backend
-      - name: Run test
-        run: npm test
-      - name: Stop backend
-        run: npm stop:backend
+    - uses: actions/checkout@v3
+    - name: Deploy to Heroku
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+        # This will be used for authentication. You can find it in your heroku homepage account settings
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_email: ${{secrets.HEROKU_EMAIL}}
+        heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
