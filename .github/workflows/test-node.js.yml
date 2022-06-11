@@ -28,6 +28,9 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm ci
+    - run: cd dancly-backend
+    - run: npm install
+    - run: cd ..
     - run: npm run runBackBg
     - run: pwd
     - run: ls
