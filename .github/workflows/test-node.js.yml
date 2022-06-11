@@ -28,4 +28,6 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm ci
+    - run: npm runBackBg
     - run: npm test
+    - run: npm stoBackBg
