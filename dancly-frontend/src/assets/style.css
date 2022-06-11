@@ -296,6 +296,11 @@ a:visited {
   justify-content: start;
   margin-top: 15px;
 }
+.messageAlt {
+  flex-direction: row-reverse;
+  justify-content: end;
+}
+
 .message-content {
   height: 100%;
   vertical-align: middle;
