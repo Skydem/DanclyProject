@@ -32,15 +32,19 @@ app.post('/login', async (req, res) => {
     try {
         await client.connect();
         const user = await users.findOne({email});
+        if (!user) {
+            return res.status(400).send('Taki użytkownik nie istnieje!.');
+        }
         const correctPass = await bcrypt.compare(password, user.hashed_password);
-
         if(user && correctPass) {
             const token = jwt.sign(user, email, {
                 expiresIn: 900,
             });
             return res.status(200).json({token, userId: user.user_id})
+        } else if (user && !correctPass) {
+            return res.status(400).send('Niepoprawne hasło.');
         }
-        return res.status(400).send('Niepoprawne dane logowania.');
+        
 
     } catch (err) {
         console.log(err);
