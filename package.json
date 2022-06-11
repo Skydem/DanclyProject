@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "cd tests;npm run codeceptjs",
-    "start:backend": "nodemon dancly-backend/server.js",
+    "start:backend": "forever start ./dancly-backend/server.js",
     "build": "webpack dancly-backend/server.js -o dist/bundle.js --mode=development",
     "lel": "echo leleele"
   },
