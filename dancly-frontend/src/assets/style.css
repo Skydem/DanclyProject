@@ -385,6 +385,8 @@ a:visited {
 .match-display {
   display: flex;
   flex-wrap: wrap;
+  overflow-y:scroll;
+  max-height: 75vh;
 }
 .match-img-container {
   width: 80px;
