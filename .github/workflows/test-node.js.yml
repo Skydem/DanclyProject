@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: dancly-backend\npm ci
-    - run: dancly-backend\npm run start:backend --if-present
+    - run: dancly-backend/npm ci
+    - run: dancly-backend/npm run start:backend --if-present
     - run: npm test
+    - run: echo hej
