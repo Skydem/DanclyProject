@@ -9,19 +9,33 @@ module.exports = {
         submitButton: "//*[@id=\"modal\"]/div[2]/div[2]/form/button",
         signUpChoose: "//*[@id=\"modal\"]/div[2]/ul/li[2]/a",
         loginChoose: "//*[@id=\"modal\"]/div[2]/ul/li[1]/a",
-
+        alertInfo: "//*[@id=\"modal\"]/div[2]/div[2]/div",
 
     },
 
     tryToSignUpWithDifferentPasswords(email, firstPass, secondPass) {
-        I.wait(4);
         I.click(this.locators.loginRegisterButton);
         I.click(this.locators.signUpChoose);
         I.fillField(this.locators.emailInput, email);
         I.fillField(this.locators.passwordInput, firstPass);
         I.fillField(this.locators.confirmPasswordInput, secondPass);
         I.click(this.locators.submitButton);
+    },
 
+    loginToThePage(email, password) {
+        I.click(this.locators.loginRegisterButton);
+        I.click(this.locators.loginChoose);
+        I.fillField(this.locators.emailInput, email);
+        I.fillField(this.locators.passwordInput, password);
+        I.click(this.locators.submitButton);
+    },
 
-    }
+    signUp(email, password) {
+        I.click(this.locators.loginRegisterButton);
+        I.click(this.locators.signUpChoose);
+        I.fillField(this.locators.emailInput, email);
+        I.fillField(this.locators.passwordInput, password);
+        I.fillField(this.locators.confirmPasswordInput, password);
+        I.click(this.locators.submitButton);
+    },
 }

@@ -16,5 +16,8 @@
         "@codeceptjs/ui": "^0.4.6",
         "codeceptjs": "^3.3.3",
         "playwright": "^1.22.2"
+    },
+    "dependencies": {
+        "electron": "^19.0.4"
     }
 }

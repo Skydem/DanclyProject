@@ -13,14 +13,14 @@ exports.config = {
   helpers: {
     Playwright: {
       url: 'http://localhost:8080',
-      show: true,
+      show: false,
       browser: 'chromium'
     }
   },
   include: {
     I: './steps_file.js',
     LoginPage: './pages/LoginPage.js',
-    MainPage: './pages/MainPage.js',
+    UpdateUserPage: './pages/UpdateUserPage.js',
 
   },
   bootstrap: null,
