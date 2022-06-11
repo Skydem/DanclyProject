@@ -9,6 +9,7 @@
             <img :src="message.img" :alt="message.name + 'profile picture'" class="message-img" />
           </div>
           <div class="message-content">
+            <span class="chat-userName">{{ message.name }}</span><br />
             <span>{{ message.message }}</span>
           </div>
         </div>

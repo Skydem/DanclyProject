@@ -36,6 +36,12 @@ export default createStore({
     updateChatTabs(state, val) {
       state.chatTabs = val;
     },
+    deleteUserInfo(state) {
+      state.user = {};
+      state.clickedUser = {};
+      state.matchesForUser = {};
+      state.filteredMatchedProfiles = {};
+    },
   },
   actions: {
     setClickedUser({ commit }, value) {
@@ -84,6 +90,7 @@ export default createStore({
       document.cookie = 'AuthToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       document.cookie = 'UserId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       router.push({ name: 'home' });
+      commit('deleteUserInfo');
       commit('toggleAuth');
     },
   },

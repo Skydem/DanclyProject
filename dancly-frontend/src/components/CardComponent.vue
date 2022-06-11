@@ -28,7 +28,12 @@ export default {
   top: 10%;
 }
 .card-padding {
-  padding: 15px;
+  padding: 0px 15px;
+}
+.card-about {
+  width: 370px;
+  overflow-y:scroll;
+  height: 70px;
 }
 
 </style>

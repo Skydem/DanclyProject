@@ -55,7 +55,7 @@ export default {
         console.log(error);
         this.login_in_submission = false;
         this.login_alert_variant = 'alert-error';
-        this.login_alert_msg = 'Error';
+        this.login_alert_msg = error.response.data;
       }
     },
   },
