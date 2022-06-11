@@ -13,8 +13,12 @@ export default createStore({
     chatTabs: 'matches',
     filteredMatchedProfiles: {},
     debugUser: false,
+    currentPersonIndex: 0,
   },
   mutations: {
+    incCurrentPersonIndex(state) {
+      state.currentPersonIndex += 1;
+    },
     toggleAuthModal: (state) => {
       state.authModalShow = !state.authModalShow;
     },

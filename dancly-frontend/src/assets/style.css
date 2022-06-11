@@ -290,6 +290,9 @@ a:visited {
   overflow-y:scroll;
   height: 70px;
 }
+.poof {
+  display: none;
+}
 /* --- chat container --- */
 
 .chat-container {
