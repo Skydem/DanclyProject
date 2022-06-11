@@ -2,7 +2,7 @@ const { I } = inject();
 
 module.exports = {
     locators: {
-        loginRegisterButton: "//*[@id=\"header\"]/div/li[2]/a",
+        loginRegisterButton: "//*[@id=\"header\"]/div/li/a",
         emailInput: "//*[@id=\"modal\"]/div[2]/div[2]/form/input[1]",
         passwordInput: "//*[@id=\"modal\"]/div[2]/div[2]/form/input[2]",
         confirmPasswordInput: "//*[@id=\"modal\"]/div[2]/div[2]/form/input[3]",

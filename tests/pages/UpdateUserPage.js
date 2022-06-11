@@ -23,7 +23,7 @@ module.exports = {
         submitButton: "//*[@id=\"app\"]/div/form/div[1]/button",
     },
 
-    updateNewManUserWhoInterestsInWomen(name, dobDay, dobMonth, dobYear, aboutMe) {
+    updateNewManUserWhoInterestsInWomen(name, dobDay, dobMonth, dobYear, aboutMe, imgUrl) {
         I.wait(2);
         I.fillField(this.locators.nameInput, name);
         I.fillField(this.locators.dayOfBirth, dobDay);
@@ -32,7 +32,8 @@ module.exports = {
         I.click(this.locators.manGenderIdentity);
         I.click(this.locators.womanGenderInterest);
         I.fillField(this.locators.aboutMeInput, aboutMe);
+        I.fillField(this.locators.imgProfile, imgUrl);
         I.click(this.locators.submitButton);
-    }
+    },
 
 }
