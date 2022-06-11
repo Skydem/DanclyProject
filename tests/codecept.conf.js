@@ -11,9 +11,12 @@ exports.config = {
   tests: './scenarios/*_test.js',
   output: './output',
   helpers: {
+    "AssertWrapper" : {
+      "require": "codeceptjs-assert"
+    },
     Playwright: {
       url: 'http://localhost:8080',
-      show: true,
+      show: false,
       browser: 'chromium',
       windowSize: '1600x960',
     }
