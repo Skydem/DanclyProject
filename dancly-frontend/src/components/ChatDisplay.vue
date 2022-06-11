@@ -17,9 +17,10 @@
     <div class="chat-input">
       <label for="message" style="display: none">Wpisz wiadomość</label>
       <textarea class="chat-text-input" id="message"
-      placeholder="Wpisz wiadomość..." auto="false" v-model="messageContent"/>
+      placeholder="Wpisz wiadomość..." auto="false"
+      v-model="messageContent" @keypress.enter="addMessage" />
       <button class="button filled-button" type="submit"
-      @click="addMessage">Wyślij wiadomość</button>
+      @click="addMessage" @keypress.enter="addMessage">Wyślij wiadomość</button>
       <button @click="getUserMessages" class="button filled-tonal-button">Odśwież</button>
     </div>
   </div>
