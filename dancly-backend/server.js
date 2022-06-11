@@ -79,7 +79,7 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/user', async (req,res) => {
-    const userId = req.params.userId;
+    const userId = req.query.userId;
 
     try {
         await client.connect();
@@ -143,7 +143,7 @@ app.put('/add-match', async (req, res) => {
         await client.connect();
         const query = { user_id: userId };
         const updateDoc = {
-            $push: { matches: { user_id: matchedUserId}},
+            $push: { matches: matchedUserId},
         }
         res.send(await users.updateOne(query, updateDoc));
     } finally {
