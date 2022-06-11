@@ -62,7 +62,7 @@ export default {
         console.log(error);
         this.register_in_submission = false;
         this.register_alert_variant = 'alert-error';
-        this.register_alert_msg = 'Error';
+        this.register_alert_msg = error.response.data;
       }
     },
   },

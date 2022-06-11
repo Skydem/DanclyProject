@@ -1,7 +1,7 @@
 <template>
   <header-vue></header-vue>
   <auth-modal></auth-modal>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>

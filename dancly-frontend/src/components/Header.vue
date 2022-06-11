@@ -3,22 +3,25 @@
     <!-- <ul> -->
       <li class="logo-container">
         <router-link :to="{ name: 'home' }">
-          <img src="@/assets/img/logo.png" alt="logo" class="logo" />
+          <img src="noweLogo.png" alt="logo" class="logo" />
         </router-link>
       </li>
       <div class="nav-buttons-container">
-        <li style="margin-right: 20px;" class="button text-button">
-          <router-link :to="{ name: 'about' }">About</router-link>
-        </li>
         <li v-if="!userLoggedIn">
           <a class="button filled-button" href="#"
           @click.prevent="toggleAuthModal">
             Login/Register
           </a>
         </li>
-        <li v-else>
+        <template v-else>
+        <li href="#" style="margin-right: 40px">
+          <router-link :to="{ name: 'Dashboard' }" class="button filled-tonal-button"
+          >Dashboard</router-link>
+        </li>
+        <li>
           <a class="button" href="#" @click.prevent="signout">Sign Out</a>
         </li>
+        </template>
       </div>
     <!-- </ul> -->
   </header>

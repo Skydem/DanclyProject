@@ -10,7 +10,8 @@
       <card-component v-for="gUser in testMatch" :key="gUser.firstName">
         <img :src="gUser.url" alt="image" class="card-img">
         <h3 class="card-padding">{{ gUser.firstName }}</h3>
-        <p class="card-padding">{{ gUser.about }}</p>
+        <p class="card-padding" style="font-weight: bolder;">O mnie:</p>
+        <p class="card-padding card-about">{{ gUser.about }}</p>
         <div class="row-section card-padding">
           <div class="button" @click="reject" @keyup.left="reject">Nope</div>
           <div class="button filled-button" @click="accept(gUser.user_id)"
