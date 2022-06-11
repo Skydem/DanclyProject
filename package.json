@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "test": "cd tests; pwd; ls; codeceptjs run --steps",
+    "startBack": "cd dancly-backend; server.js",
+    "startFront": "cd dancly-frontend; npx vue-cli-service serve --mode development",
     "runBackBg": "cd dancly-backend; forever start server.js",
     "stoBackBg": "cd dancly-backend; forver stop server.js",
-    "startFrontBg": "cd dancly-frontend; forever start npx vue-cli-service serve",
-    "stopFrontBG": "cd dancly-frontend; forever stop npx vue-cli-service serve"
+    "startFrontBg": "cd dancly-frontend; npx vue-cli-service serve",
+    "stopFrontBG": "cd dancly-frontend; npx vue-cli-service serve"
   },
   "author": "",
   "license": "ISC",
