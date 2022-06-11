@@ -7,7 +7,8 @@
   "scripts": {
     "test": "dancly-backend/codeceptjs run --steps",
     "start:backend": "nodemon dancly-backend/server.js",
-    "build": "webpack dancly-backend/server.js -o dist/bundle.js --mode=development"
+    "build": "webpack dancly-backend/server.js -o dist/bundle.js --mode=development",
+    "lel": "echo leleele"
   },
   "author": "",
   "license": "ISC",
