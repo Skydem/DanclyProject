@@ -27,13 +27,14 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-    - run: npm ci
     - run: cd dancly-backend
     - run: npm install
     - run: cd ..
+    - run: cd tests
+    - run: npm install
+    - run: cd ..
+    - run: npm ci
     - run: npm run runBackBg
-    - run: pwd
-    - run: ls
     - run: npm run test
     - run: npm run stoBackBg
-    - run: ls
+    
