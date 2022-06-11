@@ -15,5 +15,9 @@ jobs:
           node-version: "14.x"
       - name: Install dependencies
         run: npm install
+      - name: Run backend
+        run: npm start:backend
       - name: Run test
         run: npm test
+      - name: Stop backend
+        run: npm stop:backend
