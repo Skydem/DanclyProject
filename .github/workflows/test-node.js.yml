@@ -11,26 +11,31 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: npm ci
-    - run: npm run runBackBg
-    - run: npm run startFrontBg
-    - run: npm run test
-    - run: npm run stoBackBg
-    - run: npm run stopFrontBg
+      - uses: actions/checkout@v3
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm install
+      - run: npm ci
+  startBg:
+    runs-on: ubuntu-lastest
+    needs: build
+    steps:
+      - run: npm run runBackBg
+  startFront:
+    runs-on: ubuntu-lastest
+    needs: [build, startBg]
+    steps:
+      - run: cd dancly-frontend
+      - run: vue-cli-service serve
+  tests:
+    runs-on: ubuntu-lastest
+    needs: [build, startBg, startFront]
+    steps:
+      - run: npm run test
+
     
