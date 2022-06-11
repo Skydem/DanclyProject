@@ -3,10 +3,10 @@
     <h3>Piszesz z {{ clickedUser.firstName }}</h3>
     <div class="chats">
       <div class="conversation-container">
-        <div class="message" v-for="message in messagesDesc" :key="message.name+message.timestamp">
+        <div class="message" v-for="message in messagesDesc" :key="message.name+message.timestamp"
+          :class="{ messageAlt: message.isOut }">
           <div class="message-image-container">
-            <img :src="message.img" :alt="message.name + 'profile picture'"
-            class="message-img"/>
+            <img :src="message.img" :alt="message.name + 'profile picture'" class="message-img" />
           </div>
           <div class="message-content">
             <span>{{ message.message }}</span>
@@ -16,11 +16,10 @@
     </div>
     <div class="chat-input">
       <label for="message" style="display: none">Wpisz wiadomość</label>
-      <textarea class="chat-text-input" id="message"
-      placeholder="Wpisz wiadomość..." auto="false"
-      v-model="messageContent" @keypress.enter="addMessage" />
-      <button class="button filled-button" type="submit"
-      @click="addMessage" @keypress.enter="addMessage">Wyślij wiadomość</button>
+      <textarea class="chat-text-input" id="message" placeholder="Wpisz wiadomość..." auto="false"
+        v-model="messageContent" @keypress.enter="addMessage" />
+      <button class="button filled-button" type="submit" @click="addMessage"
+        @keypress.enter="addMessage">Wyślij wiadomość</button>
       <button @click="getUserMessages" class="button filled-tonal-button">Odśwież</button>
     </div>
   </div>
@@ -77,6 +76,7 @@ export default {
           img: this.user.url,
           message: message.message,
           timestamp: message.timestamp,
+          isOut: true,
         };
         this.messages.push(formattedMessage);
       });
@@ -86,6 +86,7 @@ export default {
           img: this.clickedUser.url,
           message: message.message,
           timestamp: message.timestamp,
+          isOut: false,
         };
         this.messages.push(formattedMessage);
       });
@@ -110,7 +111,7 @@ export default {
     },
   },
   mounted() {
-    // setInterval(() => this.getUserMessages(), 10000);
+    // setInterval(() => this.getUserMessages(), 5000);
     this.getUserMessages();
   },
 };
