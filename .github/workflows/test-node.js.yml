@@ -20,7 +20,6 @@ jobs:
           node-version: 14.x
           cache: 'npm'
       - run: npm install
-      - run: npm ci
   startBg:
     runs-on: ubuntu-latest
     needs: build
