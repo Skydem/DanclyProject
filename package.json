@@ -5,10 +5,11 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "codeceptjs run --steps",
+    "test": "cd tests; codeceptjs run --steps",
     "start:backend": "nodemon dancly-backend/server.js",
     "build": "webpack dancly-backend/server.js -o dist/bundle.js --mode=development",
-    "lel": "echo leleele"
+    "runBackBg": "cd dancly-backend; forever start server.js",
+    "stoBackBg": "cd dancly-backend; forver stop server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "forever": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.5.0",
     "mongoose": "^6.2.10",
