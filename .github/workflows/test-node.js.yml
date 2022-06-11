@@ -25,13 +25,12 @@ jobs:
     runs-on: ubuntu-lastest
     needs: build
     steps:
-      - run: npm run runBackBg
+      - run: npm run startBack
   startFront:
     runs-on: ubuntu-lastest
-    needs: [build, startBg]
+    needs: build
     steps:
-      - run: cd dancly-frontend
-      - run: vue-cli-service serve
+      - run: startFront
   tests:
     runs-on: ubuntu-lastest
     needs: [build, startBg, startFront]
