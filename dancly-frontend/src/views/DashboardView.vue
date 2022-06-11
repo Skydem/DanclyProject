@@ -1,19 +1,22 @@
 <template>
   <div class="dashboard">
     <chat-container class="dashboard-item chat-container"></chat-container>
-    <!-- <button @click="getUser()">get user</button> -->
-    <!-- <button @click="getUsers()">get users</button>
-    <button @click="getGenderedUsers()">get gendered users</button> -->
+    <template v-if="debugUser">
+      <button @click="getUser()">get user</button>
+      <button @click="getUsers()">get users</button>
+      <button @click="getGenderedUsers()">get gendered users</button>
+    </template>
     <div class="cards-container dashboard-item">
-      <card-component v-for="gUser in genderedUsers" :key="gUser.firstName">
-        <img :src="gUser.url" alt="image" class="card-img">
-        <h3 class="card-padding">{{ gUser.firstName }}</h3>
-        <p class="card-padding">{{ gUser.about }}</p>
-        <div class="row-section card-padding">
-          <div class="button" @click="reject" @keyup.left="reject">Nope</div>
-          <div class="button filled-button" @click="accept(gUser.user_id)"
-          @keyup.right="accept">Yas</div>
-        </div>
+      <card-component v-for="gUser in showMatch" :key="gUser.firstName">
+          <img :src="gUser.url" alt="image" class="card-img">
+          <h3 class="card-padding">{{ gUser.firstName }}</h3>
+          <p class="card-padding" style="font-weight: bolder;">O mnie:</p>
+          <p class="card-padding card-about">{{ gUser.about }}</p>
+          <div class="row-section card-padding">
+            <div class="button" @click="reject" @keyup.left="reject">Nope</div>
+            <div class="button filled-button" @click="accept(gUser.user_id)" @keyup.right="accept">
+              Yas</div>
+          </div>
       </card-component>
     </div>
 
@@ -24,6 +27,7 @@
 import cardComponent from '@/components/CardComponent.vue';
 import chatContainer from '@/components/chatContainer.vue';
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
   name: 'DashboardView',
@@ -49,6 +53,9 @@ export default {
       genderedUsers: this.getGenderedUsers(),
       filteredGenderedUsers: {},
       matchesForUser: this.getUsers(),
+      showMatch: [],
+      testMatch: [],
+      currentShow: 0,
     };
   },
   methods: {
@@ -70,12 +77,14 @@ export default {
     },
     reject(e) {
       console.log('rejected!', e.path[2]);
-      this.genderedUsers.pop();
+      this.showMatch.pop();
+      this.showMatch.push(this.testMatch.pop());
     },
     async accept(id) {
       console.log('accepted!', id);
       this.user.matches.push(id);
-      this.genderedUsers.pop();
+      this.showMatch.pop();
+      this.showMatch.push(this.testMatch.pop());
       try {
         await axios.put('http://localhost:8001/add-match', {
           userId: this.UserId,
@@ -106,14 +115,16 @@ export default {
         const pack = { params: { gender: this.user.gender_interest } };
         const response = await axios.get('http://localhost:8001/gendered-users', pack);
         this.genderedUsers = response.data;
-        // this.testMatch = this.user.matches.filter((match) => {
-        //   const res = this.genderedUsers.forEach((guser) => {
-        //     if (match === guser.user_id) return true;
-        //     return false;
-        //   });
-        //   if (res) return false;
-        //   return true;
-        // });
+        const genderedUsersIds = [];
+        this.genderedUsers.forEach((x) => genderedUsersIds.push(x.user_id));
+        console.log('tmp array mordo: ', genderedUsersIds);
+        const existingUserMatches = this.user.matches;
+        console.log('tmp matches', existingUserMatches);
+        const notMatchedWith = genderedUsersIds.filter((x) => !existingUserMatches.includes(x));
+        console.log('notMatchedWith!!!!', notMatchedWith);
+        this.testMatch = this.genderedUsers.filter((x) => notMatchedWith.includes(x.user_id));
+        console.log('czyżby????? ', this.testMatch);
+        this.showMatch.push(this.testMatch.pop());
       } catch (error) {
         console.log(error);
       }
@@ -138,6 +149,10 @@ export default {
       await this.getGenderedUsers();
       // this.$store.dispatch('setFilterMatchedProfiles');
     },
+  },
+  computed: {
+    ...mapState(['debugUser']),
+    ...mapState(['currentPersonIndex']),
   },
   mounted() {
     this.getStarterInfo();

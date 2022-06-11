@@ -12,8 +12,13 @@ export default createStore({
     clickedUser: {},
     chatTabs: 'matches',
     filteredMatchedProfiles: {},
+    debugUser: false,
+    currentPersonIndex: 0,
   },
   mutations: {
+    incCurrentPersonIndex(state) {
+      state.currentPersonIndex += 1;
+    },
     toggleAuthModal: (state) => {
       state.authModalShow = !state.authModalShow;
     },
@@ -35,19 +40,14 @@ export default createStore({
     updateChatTabs(state, val) {
       state.chatTabs = val;
     },
-    // filterMatchedProfiles(state, val) {
-    //   state.filteredMatchedProfiles = val;
-    // },
+    deleteUserInfo(state) {
+      state.user = {};
+      state.clickedUser = {};
+      state.matchesForUser = {};
+      state.filteredMatchedProfiles = {};
+    },
   },
   actions: {
-    // setFilterMatchedProfiles({ commit }) {
-    //   console.log('sortiiing');
-    /* eslint-disable max-len */
-    //   console.log('matches', this.matchesForUser);
-    //   const result = this.matchesForUser.filter((matchedProfile) => matchedProfile.matches.filter((profile) => profile.user_id === this.user.user_id).length > 0);
-    /* eslint-disable max-len */
-    //   commit('filterMatchedProfiles', result);
-    // },
     setClickedUser({ commit }, value) {
       commit('updateClickedUser', value);
     },
@@ -72,7 +72,7 @@ export default createStore({
     },
     async login({ commit }, { email, password }) {
       const response = await axios.post('http://localhost:8001/login', { email, password });
-      console.log(response);
+      console.log('login response status: ', response.status);
       const success = response.status === 200;
       if (success) router.push({ name: 'Dashboard' });
       // document.cookie = `Email=${response.data.email}`;
@@ -94,6 +94,7 @@ export default createStore({
       document.cookie = 'AuthToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       document.cookie = 'UserId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       router.push({ name: 'home' });
+      commit('deleteUserInfo');
       commit('toggleAuth');
     },
   },

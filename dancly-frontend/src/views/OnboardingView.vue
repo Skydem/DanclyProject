@@ -94,7 +94,6 @@
         </div>
       </div>
     </vee-form>
-
   </div>
 </template>
 

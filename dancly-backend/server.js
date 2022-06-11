@@ -28,19 +28,23 @@ app.get('/login', (req, res) => res.status(200));
 
 app.post('/login', async (req, res) => {
     const {email, password} = req.body;
-    const user = await users.findOne({email});
 
     try {
         await client.connect();
+        const user = await users.findOne({email});
+        if (!user) {
+            return res.status(400).send('Taki użytkownik nie istnieje!.');
+        }
         const correctPass = await bcrypt.compare(password, user.hashed_password);
-
         if(user && correctPass) {
             const token = jwt.sign(user, email, {
                 expiresIn: 900,
             });
-            res.status(200).json({token, userId: user.user_id})
+            return res.status(200).json({token, userId: user.user_id})
+        } else if (user && !correctPass) {
+            return res.status(400).send('Niepoprawne hasło.');
         }
-        res.status(400).send('Niepoprawne dane logowania.');
+        
 
     } catch (err) {
         console.log(err);
@@ -49,13 +53,11 @@ app.post('/login', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
     const {email, password} = req.body
-    const user = await users.findOne({email});
-
-    const generatedUserId = uuidv4();
-    const hashedPass = await bcrypt.hash(password, 10);
-
     try {
-        await client.connect()
+        await client.connect();
+        const user = await users.findOne({email});
+        const generatedUserId = uuidv4();
+        const hashedPass = await bcrypt.hash(password, 10);
 
         if(user) {
             return res.status(409).send("Użytkownik z podanym mailem istnieje. Proszę się zalogować.")
@@ -81,11 +83,10 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/user', async (req,res) => {
-    const userId = req.params.userId;
+    const userId = req.query.userId;
 
     try {
         await client.connect();
-
         const query = { user_id: userId };
         const user = await users.findOne(query);
 
@@ -146,7 +147,7 @@ app.put('/add-match', async (req, res) => {
         await client.connect();
         const query = { user_id: userId };
         const updateDoc = {
-            $push: { matches: { user_id: matchedUserId}},
+            $push: { matches: matchedUserId},
         }
         res.send(await users.updateOne(query, updateDoc));
     } finally {
@@ -179,10 +180,10 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/messages', async (req, res) => {
-    const messages = database.collection('messages');
     const { userId, correspondingUserId} = req.query;
     try {
         await client.connect();
+        const messages = database.collection('messages');
         const query = {
             from_userId: userId, to_userId: correspondingUserId
         }
@@ -192,7 +193,6 @@ app.get('/messages', async (req, res) => {
     } finally {
         await client.close();
     }
-
 });
 
 app.post('/message', async (req, res) => {
