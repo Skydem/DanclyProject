@@ -23,10 +23,17 @@
     "mongodb": "^4.5.0",
     "mongoose": "^6.2.10",
     "nodemon": "^2.0.15",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "codeceptjs-assert": "0.0.5",
+    "electron": "^19.0.4"
   },
   "devDependencies": {
     "webpack": "^5.73.0",
-    "webpack-cli": "^4.9.2"
+    "webpack-cli": "^4.9.2",
+    "@codeceptjs/configure": "^0.8.0",
+    "@codeceptjs/examples": "^1.2.1",
+    "@codeceptjs/ui": "^0.4.6",
+    "codeceptjs": "^3.3.3",
+    "playwright": "^1.22.2"
   }
 }
