@@ -22,17 +22,17 @@ jobs:
       - run: npm install
       - run: npm ci
   startBg:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - run: npm run startBack
   startFront:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - run: startFront
   tests:
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     needs: [build, startBg, startFront]
     steps:
       - run: npm run test
