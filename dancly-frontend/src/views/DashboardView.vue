@@ -7,16 +7,16 @@
       <button @click="getGenderedUsers()">get gendered users</button>
     </template>
     <div class="cards-container dashboard-item">
-      <card-component v-for="gUser in testMatch" :key="gUser.firstName">
-        <img :src="gUser.url" alt="image" class="card-img">
-        <h3 class="card-padding">{{ gUser.firstName }}</h3>
-        <p class="card-padding" style="font-weight: bolder;">O mnie:</p>
-        <p class="card-padding card-about">{{ gUser.about }}</p>
-        <div class="row-section card-padding">
-          <div class="button" @click="reject" @keyup.left="reject">Nope</div>
-          <div class="button filled-button" @click="accept(gUser.user_id)"
-          @keyup.right="accept">Yas</div>
-        </div>
+      <card-component v-for="gUser in showMatch" :key="gUser.firstName">
+          <img :src="gUser.url" alt="image" class="card-img">
+          <h3 class="card-padding">{{ gUser.firstName }}</h3>
+          <p class="card-padding" style="font-weight: bolder;">O mnie:</p>
+          <p class="card-padding card-about">{{ gUser.about }}</p>
+          <div class="row-section card-padding">
+            <div class="button" @click="reject" @keyup.left="reject">Nope</div>
+            <div class="button filled-button" @click="accept(gUser.user_id)" @keyup.right="accept">
+              Yas</div>
+          </div>
       </card-component>
     </div>
 
@@ -53,7 +53,9 @@ export default {
       genderedUsers: this.getGenderedUsers(),
       filteredGenderedUsers: {},
       matchesForUser: this.getUsers(),
+      showMatch: [],
       testMatch: [],
+      currentShow: 0,
     };
   },
   methods: {
@@ -75,12 +77,14 @@ export default {
     },
     reject(e) {
       console.log('rejected!', e.path[2]);
-      this.testMatch.pop();
+      this.showMatch.pop();
+      this.showMatch.push(this.testMatch.pop());
     },
     async accept(id) {
       console.log('accepted!', id);
       this.user.matches.push(id);
-      this.testMatch.pop();
+      this.showMatch.pop();
+      this.showMatch.push(this.testMatch.pop());
       try {
         await axios.put('http://localhost:8001/add-match', {
           userId: this.UserId,
@@ -120,6 +124,7 @@ export default {
         console.log('notMatchedWith!!!!', notMatchedWith);
         this.testMatch = this.genderedUsers.filter((x) => notMatchedWith.includes(x.user_id));
         console.log('czyżby????? ', this.testMatch);
+        this.showMatch.push(this.testMatch.pop());
       } catch (error) {
         console.log(error);
       }
@@ -147,6 +152,7 @@ export default {
   },
   computed: {
     ...mapState(['debugUser']),
+    ...mapState(['currentPersonIndex']),
   },
   mounted() {
     this.getStarterInfo();
