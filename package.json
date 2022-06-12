@@ -5,11 +5,12 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "cd tests; pwd; ls; codeceptjs run --steps",
-    "runBackBg": "cd dancly-backend; forever start server.js",
-    "stoBackBg": "cd dancly-backend; forver stop server.js",
-    "startFrontBg": "cd dancly-frontend; forever start npx vue-cli-service serve",
-    "stopFrontBG": "cd dancly-frontend; forever stop npx vue-cli-service serve"
+    "ng": "ng",
+    "start": "nodemon ./dancly-backend/server.js",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "postinstall": "ng build --output-path angularapp  --aot --prod"
   },
   "author": "",
   "license": "ISC",
